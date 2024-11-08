@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Hero mouse bounce */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1.5s infinite;
+}
+
+
+
+/* For footer side */
+svg {
+  fill: currentColor;
+  max-width: 100%;
+  vertical-align: baseline;
+}
+
+#footer #wavy-text {
+  font-family: Arial, sans-serif; /* Customize font */
+  font-size: 48px;
+}
+
+#wavy-text .char {
+  transform: translateY(0);
+  transform-origin: center;
+  animation: wavyText 1s ease-in-out infinite;
+}
+
+#wavy-text .char:nth-child(1) { animation-delay: 100ms; }
+#wavy-text .char:nth-child(2) { animation-delay: 200ms; }
+#wavy-text .char:nth-child(3) { animation-delay: 300ms; }
+/* Add delays for all characters in sequence */
+
+@keyframes wavyText {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10%);
+  }
+}
