@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function Navbar() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -62,7 +63,7 @@ export default function Navbar() {
 
       {/* Navigation Links for Desktop */}
       <div className="hidden md:flex items-center space-x-8 text-lg">
-        {["projects", "about", "about", "company", "Contact"].map((item, index) => (
+        {["projects", "about", "company", "contact"].map((item, index) => (
           <a
             key={index}
             href="#"
@@ -94,28 +95,45 @@ export default function Navbar() {
         </a>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Full-Screen Menu with Framer Motion */}
       {isMenuOpen && (
-        <div className="md:hidden fixed top-16 left-0 right-0 bg-gray-800 p-4 shadow-lg">
-          <div className="flex flex-col space-y-12 text-xl">
-            {["projects", "about", "about", "company", "Contact"].map((item, index) => (
-              <a
-                key={index}
-                href="#"
-                className="text-white hover:text-textAccent transition-all duration-200"
-              >
-                {item}
-                <hr className="w-full mt-4 opacity-[50%]" />
-              </a>
-            ))}
-            <a
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="fixed inset-0 bg-gray-900 z-40 flex flex-col items-center justify-center space-y-8 text-white text-2xl"
+        >
+          <button
+            onClick={toggleMenu}
+            className="absolute top-5 right-5 text-white"
+          >
+            <FaTimes size={30} />
+          </button>
+          {["projects", "about", "company", "contact"].map((item, index) => (
+            <motion.a
+              key={index}
               href="#"
-              className="flex items-center justify-center w-full py-3 bg-textAccent text-white transition-all duration-200"
+              className="hover:text-textAccent transition-all duration-200"
+              onClick={toggleMenu}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.3 }}
             >
-              Get in touch
-            </a>
-          </div>
-        </div>
+              {item}
+            </motion.a>
+          ))}
+          <motion.a
+            href="#"
+            className="px-8 py-3 bg-textAccent rounded-full text-white transition-all duration-200"
+            onClick={toggleMenu}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.3 }}
+          >
+            Get in touch
+          </motion.a>
+        </motion.div>
       )}
     </nav>
   );
