@@ -1,6 +1,4 @@
 /* eslint-disable react/no-unescaped-entities */
-// About.jsx
-import React from 'react';
 import { motion } from 'framer-motion';
 
 // Sample tech stack icons - replace with your own image URLs
