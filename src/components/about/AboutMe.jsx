@@ -1,20 +1,21 @@
 /* eslint-disable react/no-unescaped-entities */
 import { motion } from 'framer-motion';
+import { FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaGitAlt, FaWordpress, FaFigma } from 'react-icons/fa';
+import { SiFirebase, SiExpress, SiPostman, SiMicrosoft } from 'react-icons/si';
 
-// Sample tech stack icons - replace with your own image URLs
 const techStack = [
-  { name: "HTML5", image: "https://via.placeholder.com/24" },
-  { name: "CSS3", image: "https://via.placeholder.com/24" },
-  { name: "JavaScript (ES6)", image: "https://via.placeholder.com/24" },
-  { name: "React.js", image: "https://via.placeholder.com/24" },
-  { name: "Firebase", image: "https://via.placeholder.com/24" },
-  { name: "Node.js", image: "https://via.placeholder.com/24" },
-  { name: "Express", image: "https://via.placeholder.com/24" },
-  { name: "Git/GitHub", image: "https://via.placeholder.com/24" },
-  { name: "Postman", image: "https://via.placeholder.com/24" },
-  { name: "WordPress", image: "https://via.placeholder.com/24" },
-  { name: "Figma", image: "https://via.placeholder.com/24" },
-  { name: "MS Clipchamp Video Editor", image: "https://via.placeholder.com/24" },
+  { name: "HTML5", icon: <FaHtml5 /> },
+  { name: "CSS3", icon: <FaCss3Alt /> },
+  { name: "JavaScript (ES6)", icon: <FaJsSquare /> },
+  { name: "React.js", icon: <FaReact /> },
+  { name: "Firebase", icon: <SiFirebase /> },
+  { name: "Node.js", icon: <FaNodeJs /> },
+  { name: "Express", icon: <SiExpress /> },
+  { name: "Git/GitHub", icon: <FaGitAlt /> },
+  { name: "Postman", icon: <SiPostman /> },
+  { name: "WordPress", icon: <FaWordpress /> },
+  { name: "Figma", icon: <FaFigma /> },
+  { name: "MS Clipchamp Video Editor", icon: <SiMicrosoft /> },
 ];
 
 export default function About() {
@@ -100,7 +101,7 @@ export default function About() {
             >
               {techStack.map((tech, index) => (
                 <div key={index} className="flex items-center space-x-2">
-                  <img src={tech.image} alt={tech.name} className="w-6 h-6" />
+                  <span className="text-2xl text-blue-500">{tech.icon}</span>
                   <span>{tech.name}</span>
                 </div>
               ))}

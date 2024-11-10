@@ -43,7 +43,7 @@ const WhatIDo = () => {
               />
             </motion.svg>
           </span>{' '}
-          with expertise in creating web solutions that{' '}
+          with expertise in creating digital solutions that{' '}
           <span className="relative text-textAccent font-bold inline-block">
             work beautifully
             <motion.svg

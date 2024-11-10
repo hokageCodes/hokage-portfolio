@@ -64,7 +64,7 @@ const HeroSection = () => {
 
         {/* CTA Button */}
         <motion.button
-          className="mt-8 px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-md hover:from-indigo-500 hover:to-blue-500 transition duration-300"
+          className="mt-8 px-12 py-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-full hover:from-indigo-500 hover:to-blue-500 transition duration-300"
           style={{ opacity: opacityCTA, rotate: rotateCTA }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
