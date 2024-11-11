@@ -26,6 +26,7 @@ export default function NowPlaying() {
             setTrack(trackData.item);
           } else {
             setError('No track is currently playing or there was an issue with permissions.');
+            setTrack(null); // Ensures the track is reset when there's no music playing
           }
         } catch (error) {
           if (error.message.includes('Unauthorized')) {
@@ -66,7 +67,22 @@ export default function NowPlaying() {
           </div>
         </div>
       ) : (
-        token && !error && <p>Checking for currently playing track...</p>
+        token && !error && (
+          <div>
+            <p>Checking for currently playing track...</p>
+            <div style={{ width: "100%", height: "0", paddingBottom: "100%", position: "relative" }}>
+              <iframe 
+                src="https://giphy.com/embed/bGgsc5mWoryfgKBx1u" 
+                width="100%" 
+                height="100%" 
+                style={{ position: "absolute" }} 
+                frameBorder="0" 
+                className="giphy-embed" 
+                allowFullScreen
+              />
+            </div>
+          </div>
+        )
       )}
     </div>
   );
