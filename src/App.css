@@ -152,3 +152,43 @@ background-size:100%;
   left: 100%;
 }
 }
+
+
+/* src/components/NowPlaying.css */
+.now-playing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.btn-spotify-auth {
+  background-color: #1db954;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.track-info {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.album-cover {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
+.track-name {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.artist-name {
+  color: #999;
+}

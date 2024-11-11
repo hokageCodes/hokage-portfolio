@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { motion } from "framer-motion";
+import NowPlaying from '../NowPlaying'; // Import the NowPlaying component
 
 export default function Navbar() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -54,14 +55,7 @@ export default function Navbar() {
         }}
       ></div>
 
-      {/* Hamburger Icon */}
-      <div className="md:hidden flex items-center">
-        <button onClick={toggleMenu} className={`${isScrolled ? "text-gray-900" : "text-white"}`}>
-          {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-        </button>
-      </div>
-
-      {/* Navigation Links for Desktop */}
+      {/* Desktop Navigation Links and CTA */}
       <div className="hidden md:flex items-center space-x-8 text-lg">
         {["projects", "about", "company", "contact"].map((item, index) => (
           <a
@@ -86,13 +80,30 @@ export default function Navbar() {
           className="flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-200"
           data-cursor="-opaque"
         >
-          <div className={`${
-            isScrolled ? "w-12 h-12 bg-gray-900 text-white flex items-center justify-center rounded-full" : "w-12 h-12 bg-white text-black flex items-center justify-center rounded-full"
-          }`}>→</div>
-          <span className={`${
-            isScrolled ? 'text-black text-lg' : 'bg-gray-900 text-white'
-          }`}>See Resume</span>
+          <div
+            className={`${
+              isScrolled
+                ? "w-12 h-12 bg-gray-900 text-white flex items-center justify-center rounded-full"
+                : "w-12 h-12 bg-white text-black flex items-center justify-center rounded-full"
+            }`}
+          >
+            →
+          </div>
+          <span
+            className={`${
+              isScrolled ? "text-black text-lg" : "bg-gray-900 text-white"
+            }`}
+          >
+            See Resume
+          </span>
         </a>
+      </div>
+
+      {/* Hamburger Icon for Mobile */}
+      <div className="md:hidden flex items-center">
+        <button onClick={toggleMenu} className={`${isScrolled ? "text-gray-900" : "text-white"}`}>
+          {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+        </button>
       </div>
 
       {/* Mobile Full-Screen Menu with Framer Motion */}
@@ -102,37 +113,35 @@ export default function Navbar() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="fixed inset-0 bg-gray-900 z-40 flex flex-col items-center justify-center space-y-8 text-white text-2xl"
+          className="fixed inset-0 bg-gray-900 z-50 flex flex-col items-center justify-between"
+          style={{ height: "auto", maxHeight: "100vh", padding: "10px" }}
         >
-          <button
-            onClick={toggleMenu}
-            className="absolute top-5 right-5 text-white"
-          >
+          {/* Close Button */}
+          <button onClick={toggleMenu} className="absolute top-5 right-5 text-white z-60">
             <FaTimes size={30} />
           </button>
-          {["projects", "about", "company", "contact"].map((item, index) => (
-            <motion.a
-              key={index}
-              href="#"
-              className="hover:text-textAccent transition-all duration-200"
-              onClick={toggleMenu}
+
+          {/* 70% Height for Image */}
+          <div className="flex justify-center items-center w-full" style={{ height: "70%", paddingBottom: "15px" }}>
+            <img
+              src={isMenuOpen ? "/assets/da.gif" : "/assets/default-image.jpg"}
+              alt="Dancing"
+              className="w-full h-full object-cover rounded-lg"
+            />
+          </div>
+
+          {/* Now Playing Section (30%) */}
+          <div className="w-full h-auto flex flex-col items-center justify-center bg-gray-900 text-white p-4">
+            <motion.div
+              className="text-xl text-white mt-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1, duration: 0.3 }}
+              transition={{ delay: 0.5, duration: 0.3 }}
             >
-              {item}
-            </motion.a>
-          ))}
-          <motion.a
-            href="#"
-            className="px-8 py-3 bg-textAccent rounded-full text-white transition-all duration-200"
-            onClick={toggleMenu}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.3 }}
-          >
-            Get in touch
-          </motion.a>
+              Now Playing
+            </motion.div>
+            <NowPlaying />
+          </div>
         </motion.div>
       )}
     </nav>
