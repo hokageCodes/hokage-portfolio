@@ -1,26 +1,38 @@
 import { useEffect, useState } from 'react';
-import { authorizeSpotify, getAccessTokenFromUrl, clearTokenFromUrl, fetchNowPlaying } from './spotifyAuth';
+import {
+  authorizeSpotify,
+  getAccessTokenFromUrl,
+  clearTokenFromUrl,
+  fetchNowPlaying
+} from './spotifyAuth';
 
 const YOUR_SPOTIFY_ID = '040304d3155a426d';  // Replace with your actual Spotify user ID
 
 export default function NowPlaying() {
   const [token, setToken] = useState(localStorage.getItem('spotifyToken') || null);
+  const [tokenExpiry, setTokenExpiry] = useState(localStorage.getItem('spotifyTokenExpiry') || null);
   const [track, setTrack] = useState(null);
   const [error, setError] = useState(null);
 
-  // Check if the user is you and get token from URL if available
+  // Check if the token needs to be refreshed
   useEffect(() => {
     const urlToken = getAccessTokenFromUrl();
-    if (urlToken) {
-      setToken(urlToken);
-      localStorage.setItem('spotifyToken', urlToken);
-      clearTokenFromUrl();
-    } else if (!token && YOUR_SPOTIFY_ID === '040304d3155a426d') {  // Only you trigger auth
-      authorizeSpotify();
-    }
-  }, [token]);
 
-  // Fetch your currently playing track if token is available
+    if (urlToken) {
+      const expiryTime = new Date().getTime() + 3600 * 1000; // token lasts 1 hour
+      setToken(urlToken);
+      setTokenExpiry(expiryTime);
+      localStorage.setItem('spotifyToken', urlToken);
+      localStorage.setItem('spotifyTokenExpiry', expiryTime);
+      clearTokenFromUrl();
+    } else if (!token || (tokenExpiry && new Date().getTime() > tokenExpiry)) {
+      if (YOUR_SPOTIFY_ID === '040304d3155a426d') {  // Only you trigger auth
+        authorizeSpotify();
+      }
+    }
+  }, [token, tokenExpiry]);
+
+  // Fetch currently playing track if token is available and valid
   useEffect(() => {
     const fetchTrack = async () => {
       if (token) {
@@ -72,7 +84,3 @@ export default function NowPlaying() {
     </div>
   );
 }
-
-
-
-  

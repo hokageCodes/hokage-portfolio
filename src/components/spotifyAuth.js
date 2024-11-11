@@ -1,5 +1,5 @@
 const CLIENT_ID = 'ac1ae7f7e7164122a8f4ddea6132031a';
-const REDIRECT_URI = 'http://localhost:5173/';
+const REDIRECT_URI = 'http://localhost:5173/';  // Update to your hosted URL when live
 const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
 const RESPONSE_TYPE = 'token';
 const SCOPES = ['user-read-playback-state', 'user-read-currently-playing'].join(' ');
