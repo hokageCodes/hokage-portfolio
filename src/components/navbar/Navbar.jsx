@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { motion } from "framer-motion";
-import NowPlaying from '../NowPlaying'; // Import the NowPlaying component
+import NowPlaying from '../NowPlaying';  // Import the NowPlaying component
 
 export default function Navbar() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -55,7 +55,7 @@ export default function Navbar() {
         }}
       ></div>
 
-      {/* Desktop Navigation Links and CTA */}
+      {/* Desktop Navigation Links */}
       <div className="hidden md:flex items-center space-x-8 text-lg">
         {["projects", "about", "company", "contact"].map((item, index) => (
           <a
@@ -71,32 +71,6 @@ export default function Navbar() {
             )}
           </a>
         ))}
-      </div>
-
-      {/* CTA Button for Desktop */}
-      <div className="hidden md:flex">
-        <a
-          href="#"
-          className="flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-200"
-          data-cursor="-opaque"
-        >
-          <div
-            className={`${
-              isScrolled
-                ? "w-12 h-12 bg-gray-900 text-white flex items-center justify-center rounded-full"
-                : "w-12 h-12 bg-white text-black flex items-center justify-center rounded-full"
-            }`}
-          >
-            →
-          </div>
-          <span
-            className={`${
-              isScrolled ? "text-black text-lg" : "bg-gray-900 text-white"
-            }`}
-          >
-            See Resume
-          </span>
-        </a>
       </div>
 
       {/* Hamburger Icon for Mobile */}
@@ -124,7 +98,7 @@ export default function Navbar() {
           {/* 70% Height for Image */}
           <div className="flex justify-center items-center w-full" style={{ height: "70%", paddingBottom: "15px" }}>
             <img
-              src={isMenuOpen ? "/assets/da.gif" : "/assets/default-image.jpg"}
+              src={isMenuOpen ? "/assets/da.gif" : "/assets/dance.jpg"}
               alt="Dancing"
               className="w-full h-full object-cover rounded-lg"
             />
@@ -138,7 +112,7 @@ export default function Navbar() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.3 }}
             >
-              Now Playing
+              Gbedu wey dey burst brain
             </motion.div>
             <NowPlaying />
           </div>

@@ -31,8 +31,9 @@ export const fetchNowPlaying = async (token) => {
       headers: { Authorization: `Bearer ${token}` }
     });
 
-    if (!response.ok) {
-      throw new Error('Error fetching track');
+    // Check if the response is empty or the status is not OK
+    if (!response.ok || response.status === 204) { // 204 No Content indicates no track playing
+      return null; // Return null when no track is playing
     }
 
     const data = await response.json();
@@ -42,3 +43,4 @@ export const fetchNowPlaying = async (token) => {
     throw error;
   }
 };
+
