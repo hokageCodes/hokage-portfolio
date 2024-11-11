@@ -1,10 +1,20 @@
 import { useEffect, useState } from 'react';
-import { fetchNowPlaying } from './spotifyAuth';  // Assuming you've already set up spotifyAuth.js
+import { authorizeSpotify, getAccessTokenFromUrl, clearTokenFromUrl, fetchNowPlaying } from './spotifyAuth';
 
 export default function NowPlaying() {
   const [token, setToken] = useState(localStorage.getItem('spotifyToken') || null);
   const [track, setTrack] = useState(null);
   const [error, setError] = useState(null);
+
+  // Check for token in URL and store in localStorage
+  useEffect(() => {
+    const accessToken = getAccessTokenFromUrl();
+    if (accessToken) {
+      localStorage.setItem('spotifyToken', accessToken);
+      setToken(accessToken);
+      clearTokenFromUrl();
+    }
+  }, []);
 
   // Real-time track updates
   useEffect(() => {
@@ -15,8 +25,7 @@ export default function NowPlaying() {
           if (trackData && trackData.item) {
             setTrack(trackData.item);
           } else {
-            setTrack(null);  // No music playing
-            setError('No music is currently playing.');
+            setError('No track is currently playing or there was an issue with permissions.');
           }
         } catch (error) {
           if (error.message.includes('Unauthorized')) {
@@ -40,6 +49,12 @@ export default function NowPlaying() {
 
   return (
     <div className="now-playing">
+      {!token && (
+        <button onClick={authorizeSpotify} className="btn-spotify-auth">
+          Connect to Spotify
+        </button>
+      )}
+      
       {error && <p className="error-message">{error}</p>}
       
       {track ? (
@@ -51,12 +66,7 @@ export default function NowPlaying() {
           </div>
         </div>
       ) : (
-        !error && (
-          <div>
-            <img src="/assets/no-music-playing.gif" alt="No music playing" className="no-music-gif" />
-            <p className="no-music-message">Oops! No music is playing at the moment. 😅</p>
-          </div>
-        )
+        token && !error && <p>Checking for currently playing track...</p>
       )}
     </div>
   );
