@@ -1,34 +1,47 @@
 import { useEffect, useState } from 'react';
-import { fetchNowPlaying } from './spotifyAuth'; // Assuming this fetches a public track without user tokens
+import { fetchNowPlaying } from './spotifyAuth';  // Assuming you've already set up spotifyAuth.js
 
 export default function NowPlaying() {
+  const [token, setToken] = useState(localStorage.getItem('spotifyToken') || null);
   const [track, setTrack] = useState(null);
   const [error, setError] = useState(null);
 
+  // Real-time track updates
   useEffect(() => {
-    const fetchTrack = async () => {
-      try {
-        const trackData = await fetchNowPlaying(); // Adjust this to fetch a public track if available
-        if (trackData && trackData.item) {
-          setTrack(trackData.item);
-        } else {
-          setTrack(null);  // No music playing
+    if (token) {
+      const fetchTrack = async () => {
+        try {
+          const trackData = await fetchNowPlaying(token);
+          if (trackData && trackData.item) {
+            setTrack(trackData.item);
+          } else {
+            setTrack(null);  // No music playing
+            setError('No music is currently playing.');
+          }
+        } catch (error) {
+          if (error.message.includes('Unauthorized')) {
+            setError('Session expired. Please reconnect to Spotify.');
+            localStorage.removeItem('spotifyToken');
+            setToken(null);
+          } else {
+            setError(error.message);
+          }
         }
-      } catch (error) {
-        setError('Failed to fetch currently playing track.', error);
-      }
-    };
+      };
 
-    fetchTrack();
-    const interval = setInterval(fetchTrack, 10000);
+      // Fetch initially and then every 10 seconds
+      fetchTrack();
+      const interval = setInterval(fetchTrack, 10000);
 
-    return () => clearInterval(interval);
-  }, []);
+      // Cleanup interval on unmount
+      return () => clearInterval(interval);
+    }
+  }, [token]);
 
   return (
     <div className="now-playing">
       {error && <p className="error-message">{error}</p>}
-
+      
       {track ? (
         <div className="track-info">
           <img src={track.album.images[0].url} alt="Album cover" className="album-cover" />
@@ -39,16 +52,9 @@ export default function NowPlaying() {
         </div>
       ) : (
         !error && (
-          <div style={{ width: '100%', height: '0', paddingBottom: '100%', position: 'relative' }}>
-            <iframe 
-              src="https://giphy.com/embed/bGgsc5mWoryfgKBx1u" 
-              width="100%" 
-              height="100%" 
-              style={{ position: 'absolute' }} 
-              frameBorder="0" 
-              allowFullScreen
-            ></iframe>
-            <p className="no-music-message">Oops! No music is playing at the moment. 😅</p>
+          <div>
+            <img src="/assets/no-music-playing.gif" alt="No music playing" className="no-music-gif" />
+            <p className="no-music-message">Oops! No music is playing at the moment.😅</p>
           </div>
         )
       )}
