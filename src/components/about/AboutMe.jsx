@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unescaped-entities */
 import { motion } from 'framer-motion';
-import { FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaGitAlt, FaWordpress, FaFigma } from 'react-icons/fa';
+import {
+  FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaGitAlt, FaWordpress, FaFigma
+} from 'react-icons/fa';
 import { SiFirebase, SiExpress, SiPostman, SiMicrosoft } from 'react-icons/si';
 
 const techStack = [
@@ -30,7 +32,7 @@ export default function About() {
         
         {/* Profile Image */}
         <motion.div
-          className="w-64 h-64 flex-shrink-0"
+          className="w-48 h-48 md:w-64 md:h-64 flex-shrink-0 mb-8 lg:mb-0"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
@@ -100,8 +102,13 @@ export default function About() {
               transition={{ duration: 0.8, delay: 0.9 }}
             >
               {techStack.map((tech, index) => (
-                <div key={index} className="flex items-center space-x-2">
-                  <span className="text-2xl text-blue-500">{tech.icon}</span>
+                <div
+                  key={index}
+                  className="flex items-center space-x-2 hover:text-textAccent transition-colors duration-200"
+                >
+                  <span className="text-2xl text-blue-500 transition-transform transform hover:scale-125">
+                    {tech.icon}
+                  </span>
                   <span>{tech.name}</span>
                 </div>
               ))}
